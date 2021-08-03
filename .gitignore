@@ -1,5 +1,4 @@
 build
 compile_commands.json
 .cache
-*.csv
-*.csv#
+res/*.csv

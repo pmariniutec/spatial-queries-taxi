@@ -35,11 +35,17 @@ file(GLOB_RECURSE SOURCE_FILES "${SOURCES_DIR}/*.cpp")
 file(GLOB_RECURSE HEADER_FILES "${SOURCES_DIR}/*.h")
 file(GLOB_RECURSE TEST_FILES "${TESTS_DIR}/*.cpp")
 
+# [LIBRARY] Json
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+set(JSON_Install OFF CACHE INTERNAL "")
+add_subdirectory(lib/json)
+
 # [LIBRARY] Source
 add_library(${LIB_NAME} ${SOURCE_FILES} ${HEADER_FILES})
 target_include_directories(${LIB_NAME} PUBLIC ${SOURCES_DIR})
 set_target_properties(${LIB_NAME} PROPERTIES LINKER_LANGUAGE CXX)
-target_link_libraries(${LIB_NAME} project_options project_warnings)
+target_link_libraries(${LIB_NAME} project_options project_warnings nlohmann_json::nlohmann_json)
+
 
 # [EXECUTABLE] Main
 add_executable(${EXEC_NAME} main.cpp)
@@ -60,3 +66,5 @@ add_custom_target(${TEST_TARGET}
 include(CTest)
 include(Catch)
 catch_discover_tests(${TEST_MAIN})
+
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/res ${PROJECT_BINARY_DIR}/res RESULT_VARIABLE exitcode)
