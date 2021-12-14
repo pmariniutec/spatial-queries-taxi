@@ -42,11 +42,6 @@ inline bool operator<(std::pair<double, Points>& lhs, std::pair<double, Points>&
   return lhs.first < rhs.first;
 }
 
-struct Neighborhood {
-  std::string name;
-  Points polygon;
-};
-
 struct Rect {
   Rect() = default;
 

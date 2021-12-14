@@ -840,7 +840,6 @@ double RTree::pointToLine(const Point& p, const Point& l1, const Point& l2) {
   return sqrt(d.first * d.first + d.second * d.second);
 }
 
-
 double RTree::pointToPoly(const Point& p, Points& poly) {
 
   if (isInside(poly, p)) {

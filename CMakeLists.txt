@@ -35,16 +35,14 @@ file(GLOB_RECURSE SOURCE_FILES "${SOURCES_DIR}/*.cpp")
 file(GLOB_RECURSE HEADER_FILES "${SOURCES_DIR}/*.h")
 file(GLOB_RECURSE TEST_FILES "${TESTS_DIR}/*.cpp")
 
-# [LIBRARY] Json
-set(JSON_BuildTests OFF CACHE INTERNAL "")
-set(JSON_Install OFF CACHE INTERNAL "")
-add_subdirectory(lib/json)
+# BOOST
+find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 
 # [LIBRARY] Source
 add_library(${LIB_NAME} ${SOURCE_FILES} ${HEADER_FILES})
-target_include_directories(${LIB_NAME} PUBLIC ${SOURCES_DIR})
+target_include_directories(${LIB_NAME} PUBLIC ${SOURCES_DIR} ${Boost_INCLUDE_DIRS})
 set_target_properties(${LIB_NAME} PROPERTIES LINKER_LANGUAGE CXX)
-target_link_libraries(${LIB_NAME} project_options project_warnings nlohmann_json::nlohmann_json)
+target_link_libraries(${LIB_NAME} project_options project_warnings Boost::program_options Boost::filesystem)
 
 
 # [EXECUTABLE] Main

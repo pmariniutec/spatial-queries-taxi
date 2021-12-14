@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <fstream>
-#include <nlohmann/json.hpp>
 
 #include "rtree.h"
 #include "csvUtils.h"
@@ -31,23 +30,6 @@ class DataLoader {
 	  points.emplace_back(puLon, puLat, PointType::PICKUP);
 	  points.emplace_back(doLon, doLat, PointType::DROPOFF);
 
-	  auto rect = rt.mbr(points);
-	  rt.insert(rect.m_min, rect.m_max, points);
-	}
-  }
-
-  static void loadNeighborhoods(RTree& rt) {
-	std::fstream in{ "res/neighborhoods.json" };
-	nlohmann::json j = nlohmann::json::parse(in);
-
-	for (auto& x : j["features"]) {
-	  auto neighborhoodName = x["properties"]["neighborhood"];
-	  Points points;
-	  for (auto& coordGroup : x["geometry"]["coordinates"]) {
-		for (auto& coord : coordGroup) {
-		  points.emplace_back(coord[0], coord[1], PointType::NH_BOUND);
-		}
-	  }
 	  auto rect = rt.mbr(points);
 	  rt.insert(rect.m_min, rect.m_max, points);
 	}
